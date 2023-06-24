@@ -122,3 +122,37 @@ const Fernando = new U("Fernando", "40");
 prt_age(Fernando);
 printName(Fernando);
 ```
+
+## Compatibilidad CJS EMS
+
+### url local en EMS
+
+- En EMS no existe `filename` ni `dirname`, no se puede importar un archivo JSON
+- Para obtener url local en EMS se debe usar la librería `import.meta.url`
+
+### Extensiones de archivos
+
+- CJS => .cjs
+- EMS => .mjs
+
+```js
+import.meta.url;
+import { saludo } from "./saludo.cjs";
+```
+
+### Create require
+
+- Si no funciona el módulo import.meta.url se debe cargar con la librería de node `module`
+
+```js
+- import { createRequire } from "module"
+- const require = createRequire('import.meta.url')
+```
+
+### Import Dinámico (EMS en CJS)
+
+- Funciona como una promesa ya que EMS es asíncrono
+
+```js
+import("./operaciones.mjs").then((operaciones) => console.log(operaciones))
+```

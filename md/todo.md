@@ -1,0 +1,1 @@
+- Investigar sobre la librería module => create require
