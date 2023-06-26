@@ -3,3 +3,4 @@
 
 # Recursos
 - Thunder cliente => plugin peticiones http
+- JSON generator

@@ -1,8 +1,16 @@
 import { createServer } from "http";
 
 const httpServer = createServer((req, res) => {
-  console.log("Petición recibida en el puerto 5000");
-  res.end("<h1>Hello World</h1>");
+  let data = "";
+  let countChunk = 0;
+  req.on("data", (chunk) => {
+    data += chunk;
+    countChunk++;
+    console.log(countChunk);
+  });
+  req.on("end", () => {
+    res.end("Recibido");
+  });
 });
 
 httpServer.listen(5000);
