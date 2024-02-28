@@ -27,3 +27,49 @@ npm i standard -D -E
 }
 ```
 
+## Librería cors
+
+```js
+const app = express()
+
+app.use(cors({
+  origin: (origin, callback) => {
+    const ACCEPTED_ORIGINS = [
+      URL_EXAMPLE_1,
+      URL_EXAMPLE_2,
+      URL_EXAMPLE_3
+    ]
+
+    if (ACCEPTED_ORIGINS.includes(origin)) {
+      return callback(null, true)
+    }
+
+    if (!origin) {
+      return callback(null, true)
+    }
+
+    return callback(new Error('Not allowed by CORS'))
+  }
+}))
+```
+
+## dotenv
+
+Variables de entorno
+
+```env
+.env
+PORT=3001
+```
+
+```js
+// npm i -D -E dotenv
+
+import 'dotenv/config'
+const PORT = process.env.PORT
+```
+
+
+
+
+

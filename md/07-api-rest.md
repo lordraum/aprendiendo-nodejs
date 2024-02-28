@@ -24,3 +24,29 @@ El cliente podrá decidir en que formato recibirá la información.
 
 El cliente debe enviar toda la infromación necesaria para procesar la respuesta.
 
+## Request Params
+
+Especificar en el path --> `app.get('/movies/:id', (req, res)...`
+
+Acceder --> `const { id } = req.params`
+
+```js
+app.get('/movies/:id', (req, res) => {
+  const { id } = req.params
+  const movie = movies.find(movie => movie.id === id)
+  return !movie
+    ? res.status(400).json({ message: 'movie not found' })
+    : res.json(movie)
+})
+```
+
+### Error CORS
+
+Es el qué sucede cuando se intenta acceder desde uan url que no es la misma del servidor, para solucionarlo se utiliza la librería `cors`. Ejemplo en `recursos-tips.md`
+
+## Solicitud post
+
+- Acceder a la data de req.body
+- Recopilar la data de req.body + la data adicional (Ej --> id)
+- Enviar
+
