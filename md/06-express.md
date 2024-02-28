@@ -8,6 +8,8 @@ Framework http de nodejs
 import express from "express";
 // Se puede utilizar cualquier nombre
 
+app.disable('x-powered-by') // Deshabilita los créditos de express en la web
+
 const app = express();
 ```
 
@@ -18,7 +20,7 @@ const app = express();
   - Path (endpoint)
   - Request, Response (req, res)
     - req.send --> lo que se envia al cliente.
-- Método .listen
+- Método .listen()
 - Parámetros
   - PORT
   - cb

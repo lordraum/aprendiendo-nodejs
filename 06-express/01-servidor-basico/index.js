@@ -2,6 +2,8 @@ import createExpressServer from 'express'
 
 const app = createExpressServer()
 
+app.disable('x-powered-by')
+
 app.get('/', (req, res) => {
   res.send('<h1>Hello World</h1>')
 })
