@@ -39,11 +39,6 @@ app.get('/movies/:id', (req, res) => {
     : res.json(movie)
 })
 ```
-
-### Error CORS
-
-Es el qué sucede cuando se intenta acceder desde uan url que no es la misma del servidor, para solucionarlo se utiliza la librería `cors`.
-
 ## Solicitud post
 
 - Acceder a la data de req.body
@@ -117,6 +112,82 @@ Object.assign(movieToUpdate, updatedFields)
     res.status(200).json(movieToUpdate)
 */
 ```
+
+## Error CORS
+
+Es el qué sucede cuando se intenta acceder desde una url que no es la misma del servidor, para solucionarlo se utiliza la librería `cors`.
+
+## Zod
+
+`import { z } from 'zod'`
+
+### Creación esquema de validación
+
+`const movieSchema = z.object({fields})`
+
+Librería que facilita la validación de campos, utiliza la sintaxis del punto con encadenamiento para las validaciones. --> `year: z.number().int().min(1900).max(2024)`
+
+Se puede añadir mensajes
+
+```js
+ title: z.string({
+    invalid_type_error: 'Movie title must be a string',
+    required_error: 'Movie title is required.'
+  }),
+```
+
+### Enums
+
+El enum indica una lista de posibles 'items' validos en el array que llegará desde el cliente.
+
+```js
+genre: z.array(
+    z.enum(['Action', 'Adventure', 'Crime', 'Comedy', 'Drama', 'Fantasy', 'Horror', 'Thriller', 'Sci-Fi']),
+    {
+      required_error: 'Movie genre is required.',
+      invalid_type_error: 'Movie genre must be an array of enum Genre'
+    }
+  )
+```
+
+Ejemplo con campos para crear un usuario
+
+```js
+const userSchema = z.object({
+  username: z.string({
+    required_error: 'Username is required.'
+  }),
+  email: z.string().email(),
+  age: z.number().int().min(18),
+  isAdmin: z.boolean().default(false)
+})
+```
+
+### validar esquema
+
+```js
+function validateMovie (input) {
+  return movieSchema.safeParse(input)
+}
+// Valida que todos los datos se cumplan --> POST - PUT
+
+function validatePartialMovie (input) {
+  return movieSchema.partial().safeParse(input)
+}
+// Valida los datos que lleguen --> PATCH
+
+module.exports = {
+  validateMovie,
+  validatePartialMovie
+}
+```
+
+## Diferencia entre PATCH y PUT
+
+PUT reemplaza todo un registro, en cambio POST un parcial o completo
+
+
+
 
 
 
