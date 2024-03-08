@@ -68,8 +68,43 @@ PORT=3001
 import 'dotenv/config'
 const PORT = process.env.PORT
 ```
+## Spread operator para reemplazr valores en objetos (patch)
 
+```js
+const nums1 = {
+  a: 1,
+  b: 2,
+  c: 3
+}
 
+const nums2 = {
+  a: 2, // Reemplaza el value de las propiedades ue coincidan en nums1 
+}
 
+const nums3 = {
+  ...nums1,
+  ...nums2
+}
+
+```
+
+## DELETE
+
+- Hallar registro, por media de una key (generalmente id), si se ha enviado como parámetro de la url, acceder por medio req.params
+- Eliminar el registro de la lista utilizando splice()
+
+```js
+app.delete('/movies/:id', (req, res) => {
+  const { id } = req.params
+  const movieIndex = movies.findIndex(movie => movie.id === id)
+
+  if (movieIndex === -1) {
+    return res.status(404).json({ message: 'Movie not found' })
+  }
+
+  movies.splice(movieIndex, 1)
+  return res.json([{ message: 'Movie deleted' }, movies])
+})
+```
 
 
