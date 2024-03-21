@@ -55,11 +55,11 @@ Utilizar las extensiones de archivo propias de cada módulo --> .cjs para CJS y 
 ### Importar JSON y módulos CJS en EMS
 
 ```js
-import { createRequire } from "module";
-const require = createRequire(import.meta.url);
+import { createRequire } from "module"
+const require = createRequire(import.meta.url)
+const myDataJSON = require("data.json")
 
-const oldModule = require("/cjs-module");
-const myDataJSON = require("data.json");
+const oldModule = require("/cjs-module")
 ```
 
 ## HTTP Server

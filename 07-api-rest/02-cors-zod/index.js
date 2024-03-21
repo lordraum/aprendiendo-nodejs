@@ -1,29 +1,35 @@
 import express from 'express'
-import { v4 as uuidv4 } from 'uuid' // Importamos solo la función v4 como uuidv4
+import { v4 as uuidv4 } from 'uuid'
 import movies from './movies.json'
-import { validateMovie } from './schemas/movies.mjs' // Agregamos la extensión mjs para importar módulos ES
+import { validateMovie } from './schemas/movies.js'
+import cors from 'cors'
 
 const app = express()
 const PORT = process.env.PORT ?? 3000
-
 const ACCEPTED_ORIGINS = [
-  'http://localhost:8080'
+  'http://localhost:8080',
+  'http://localhost:1234',
+  'https://movies.com',
+  'https://midu.dev'
 ]
 
 app.disable('x-powered-by')
 app.use(express.json())
 
 // CORS middleware
-app.use((req, res, next) => {
-  const origin = req.get('Origin')
-  if (ACCEPTED_ORIGINS.includes(origin)) {
-    res.header('Access-Control-Allow-Origin', origin)
-    res.header('Access-Control-Allow-Methods', 'GET, POST, PATCH, PUT, DELETE')
-    res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization')
-    res.header('Access-Control-Allow-Credentials', 'true')
+app.use(cors({
+  origin: (origin, callback) => {
+    if (ACCEPTED_ORIGINS.includes(origin)) {
+      return callback(null, true)
+    }
+
+    if (!origin) {
+      return callback(null, true)
+    }
+
+    return callback(new Error('Not allowed by CORS'))
   }
-  next()
-})
+}))
 
 app.get('/movies', (req, res) => {
   const origin = req.header('origin')

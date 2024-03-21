@@ -27,8 +27,8 @@ const app = express();
 
 ```js
 app.get("/", (req, res) => {
-  res.send("<h1>Hello World</h1>");
-});
+  res.send("<h1>Hello World</h1>")
+})
 
 app.listen("3001", () => console.log("Servidor lanzado en el puerto 3001"));
 ```
@@ -48,10 +48,10 @@ Instrucción que finaliza el actual middleware y pasa al siguiente.
 ```js
 app.use((req, res, next) => {
   // For example, a GET request to `/test` will print "GET /test"
-  console.log(`${req.method} ${req.url}`);
+  console.log(`${req.method} ${req.url}`)
 
-  next();
-});
+  next()
+})
 ```
 
 ### app.json()
@@ -100,5 +100,3 @@ app.use((req, res) => {
   res.status(404).send('<h1>404 not found</h1>')
 })
 ```
-
-

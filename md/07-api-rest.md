@@ -22,7 +22,7 @@ El cliente podrá decidir en que formato recibirá la información.
 
 ### Sin estado
 
-El cliente debe enviar toda la infromación necesaria para procesar la respuesta.
+El cliente debe enviar toda la información necesaria para procesar la respuesta.
 
 ## Request Params
 
@@ -33,6 +33,7 @@ Acceder --> `const { id } = req.params`
 ```js
 app.get('/movies/:id', (req, res) => {
   const { id } = req.params
+  // Acceder a  la película solicitada según el id enviado por el cliente
   const movie = movies.find(movie => movie.id === id)
   return !movie
     ? res.status(400).json({ message: 'movie not found' })
@@ -98,6 +99,7 @@ app.patch('/movies/:id', (req, res) => {
     ...updateFields
   }
 
+  // Esto no es rest
   movies[movieIndex] = updateMovie
 
   res.json(updateMovie)
@@ -115,9 +117,24 @@ Object.assign(movieToUpdate, updatedFields)
 
 ## Error CORS
 
-Es el qué sucede cuando se intenta acceder desde una url que no es la misma del servidor, para solucionarlo se utiliza la librería `cors`.
+Es el qué sucede cuando se intenta acceder desde una url que no es la misma del servidor, para solucionarlo se utiliza el siguiente middleware:
+
+```js
+app.use((req, res, next) => {
+  const origin = req.get('Origin')
+  if (ACCEPTED_ORIGINS.includes(origin)) {
+    res.header('Access-Control-Allow-Origin', origin)
+    res.header('Access-Control-Allow-Methods', 'GET, POST, PATCH, PUT, DELETE')
+    res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization')
+    res.header('Access-Control-Allow-Credentials', 'true')
+  }
+  next()
+})
+```
 
 ## Zod
+
+Módulo para la validación de datos del cliente a través de esquemas.
 
 `import { z } from 'zod'`
 
